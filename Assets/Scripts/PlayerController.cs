@@ -9,13 +9,22 @@ public class PlayerController : MonoBehaviour
     private float lastFireTime;
     public Animator anim;
 
-    public GameObject smoke;
-    public GameObject gunHead;
+    //public GameObject smoke;
+    //public GameObject gunHead;
+
+    private AudioSource audioSource;
+    public float playerHealth = 10f;
+    private float playerCurrentHealth = 10f;
+    private GameObject gameController;
+    public AudioClip playerDeath;
+
     // Start is called before the first frame update
     void Start()
     {
         UpdateFireTime();
         anim = gameObject.GetComponent<Animator>();
+        audioSource = gameObject.GetComponent<AudioSource>();
+        gameController = GameObject.FindGameObjectWithTag("GameController");
     }
 
     void UpdateFireTime()
@@ -33,6 +42,8 @@ public class PlayerController : MonoBehaviour
         if (Time.time > lastFireTime + fireTime)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit))
@@ -40,12 +51,12 @@ public class PlayerController : MonoBehaviour
                 if (hit.transform.tag.Equals("Zombie"))
                 {
                     SetFireAnim(true);
-                    InsSmoke();
+                    //InsSmoke();
                     hit.transform.gameObject.GetComponent<ZombieController>().GetHit(damge);
                 }
                 else if (hit.transform.tag.Equals("Wall") || hit.transform.tag.Equals("Ground"))
                 {
-                    InsSmoke();
+                    //InsSmoke();
                     SetFireAnim(true);
                 }
             }
@@ -57,10 +68,29 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void InsSmoke()
+    //void InsSmoke()
+    //{
+    //    GameObject sm = Instantiate(smoke, gunHead.transform.position, gunHead.transform.rotation);
+    //    Destroy(sm, 0.5f);
+    //}
+
+    public void GetHit(int damge)
     {
-        GameObject sm = Instantiate(smoke, gunHead.transform.position, gunHead.transform.rotation);
-        Destroy(sm, 0.5f);
+        audioSource.Play();
+        playerCurrentHealth -= damge;
+
+        if(playerCurrentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    public void Die()
+    {
+        audioSource.clip = playerDeath;
+        audioSource.Play();
+        gameController.GetComponent<GameController>().EndGame();
+
     }
 
     // Update is called once per frame

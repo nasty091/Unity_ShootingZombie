@@ -11,6 +11,12 @@ public class ZombieController : MonoBehaviour
     public bool isAttack = false;
     public float attackTime = 1f;
     public float lastAttackTime = 0f;
+
+    private AudioSource audioSource;
+    public AudioClip zombieDeathSound;
+    private GameObject player;
+    private int zombieDamge = 1;
+
     public bool IsShooten
     {
         get { return isShooten; }
@@ -27,6 +33,8 @@ public class ZombieController : MonoBehaviour
         anim = gameObject.GetComponent<Animator>();
         IsShooten = false;
         anim.SetBool("isDead", false);
+        audioSource = gameObject.GetComponent<AudioSource>();
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     void UpdateShootenTime()
@@ -52,6 +60,7 @@ public class ZombieController : MonoBehaviour
     {
         IsShooten = true;
         zombieHealth -= damge;
+        audioSource.Play();
 
         if (zombieHealth <= 0)
         {
@@ -61,6 +70,9 @@ public class ZombieController : MonoBehaviour
 
     void Death()
     {
+        audioSource.clip = zombieDeathSound;
+        audioSource.Play();
+
         anim.SetBool("isDead", true);
         Destroy(gameObject, 1.5f);
     }
@@ -69,6 +81,7 @@ public class ZombieController : MonoBehaviour
     {
         if(Time.time >= lastAttackTime + attackTime)
         {
+            player.GetComponent<PlayerController>().GetHit(zombieDamge);
             AttackAnim(true);
             UpdateAttackTime();
         }
