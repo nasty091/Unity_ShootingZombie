@@ -6,8 +6,8 @@ public class SpawnEnemy : MonoBehaviour
 {
     public GameObject[] spawnPoint;
     public GameObject zombie;
-    public float minSpawnTime = 1000000f;
-    public float maxSpawnTime = 1500000f;
+    private float minSpawnTime = 5f;
+    private float maxSpawnTime = 10f;
     private float lastSpawnTime = 0f;
     private float spawnTime = 0f;
     // Start is called before the first frame update

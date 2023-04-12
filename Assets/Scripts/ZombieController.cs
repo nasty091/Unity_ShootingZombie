@@ -8,15 +8,19 @@ public class ZombieController : MonoBehaviour
     private Animator anim;
     private bool isShooten;
     public float shootTime = 0.5f;
+
     public bool isAttack = false;
-    public float attackTime = 1f;
+    public float attackTime = 3f;
     public float lastAttackTime = 0f;
 
     private AudioSource audioSource;
     public AudioClip zombieDeathSound;
+
     private GameObject player;
     private int zombieDamge = 1;
+    private GameObject gameController;
 
+    private PlayerController playerController;
     public bool IsShooten
     {
         get { return isShooten; }
@@ -26,7 +30,9 @@ public class ZombieController : MonoBehaviour
             UpdateShootenTime();
         }
     }
+
     private float lastShootenTime = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,6 +41,7 @@ public class ZombieController : MonoBehaviour
         anim.SetBool("isDead", false);
         audioSource = gameObject.GetComponent<AudioSource>();
         player = GameObject.FindGameObjectWithTag("Player");
+        gameController = GameObject.FindGameObjectWithTag("GameController");
     }
 
     void UpdateShootenTime()
@@ -75,13 +82,17 @@ public class ZombieController : MonoBehaviour
 
         anim.SetBool("isDead", true);
         Destroy(gameObject, 1.5f);
+
+        gameController.GetComponent<GameController>().GetPoint(1);
     }
 
     void Attack()
     {
         if(Time.time >= lastAttackTime + attackTime)
         {
-            player.GetComponent<PlayerController>().GetHit(zombieDamge);
+            StartCoroutine(DelayPlayerGetHit());
+
+            //player.GetComponent<PlayerController>().GetHit(zombieDamge);
             AttackAnim(true);
             UpdateAttackTime();
         }
@@ -89,6 +100,13 @@ public class ZombieController : MonoBehaviour
         {
             AttackAnim(false);
         }
+    }
+
+    IEnumerator DelayPlayerGetHit()
+    {
+        yield return new WaitForSeconds(3f);
+        player.GetComponent<PlayerController>().GetHit(zombieDamge);
+        StopAllCoroutines();
     }
 
     // Update is called once per frame

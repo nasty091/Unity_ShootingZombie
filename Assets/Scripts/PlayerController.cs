@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -14,9 +15,11 @@ public class PlayerController : MonoBehaviour
 
     private AudioSource audioSource;
     public float playerHealth = 10f;
-    private float playerCurrentHealth = 10f;
+    internal float playerCurrentHealth = 10f;
     private GameObject gameController;
     public AudioClip playerDeath;
+
+    public Slider healthBar;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +28,12 @@ public class PlayerController : MonoBehaviour
         anim = gameObject.GetComponent<Animator>();
         audioSource = gameObject.GetComponent<AudioSource>();
         gameController = GameObject.FindGameObjectWithTag("GameController");
+        //playerHealth = playerCurrentHealth;
+        
+        //Handle HealthBar
+        healthBar.maxValue= playerHealth;
+        healthBar.value = playerCurrentHealth;
+        healthBar.minValue = 0;
     }
 
     void UpdateFireTime()
@@ -74,16 +83,35 @@ public class PlayerController : MonoBehaviour
     //    Destroy(sm, 0.5f);
     //}
 
+    int lostPlayerHealth = 0;
     public void GetHit(int damge)
     {
-        audioSource.Play();
         playerCurrentHealth -= damge;
+        lostPlayerHealth += 1;
 
-        if(playerCurrentHealth <= 0)
+        healthBar.value = playerCurrentHealth;
+
+        if(lostPlayerHealth == 5)
+        {
+            audioSource.Play();
+            lostPlayerHealth = 0;
+        }
+        if (playerCurrentHealth <= 0)
         {
             Die();
         }
     }
+
+
+    //IEnumerator PlayerScream()
+    //{
+    //    while (true)
+    //    {
+    //        yield return new WaitForSeconds(6);
+    //        audioSource.Play();
+    //        playerCurrentHealth -= damge;
+    //    }
+    //}
 
     public void Die()
     {
@@ -100,5 +128,6 @@ public class PlayerController : MonoBehaviour
         {
             Fire();
         }
+        //playerHealth = playerCurrentHealth;
     }
 }
