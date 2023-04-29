@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class ZombieController : MonoBehaviour
 {
-    private int zombieHealth = 3;
+    public int zombieHealth = 3;
     private Animator anim;
-    private bool isShooten;
+    protected bool isShooten;
     public float shootTime = 0.5f;
 
     public bool isAttack = false;
@@ -44,7 +44,7 @@ public class ZombieController : MonoBehaviour
         gameController = GameObject.FindGameObjectWithTag("GameController");
     }
 
-    void UpdateShootenTime()
+    protected void UpdateShootenTime()
     {
         lastShootenTime = Time.time;
     }
@@ -53,7 +53,7 @@ public class ZombieController : MonoBehaviour
     {
         lastAttackTime = Time.time;
     }
-    void ShootenAnim(bool isShooten)
+    protected void ShootenAnim(bool isShooten)
     {
         anim.SetBool("isShooten", isShooten);
     }
@@ -104,7 +104,7 @@ public class ZombieController : MonoBehaviour
 
     IEnumerator DelayPlayerGetHit()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2.5f);
         player.GetComponent<PlayerController>().GetHit(zombieDamge);
         StopAllCoroutines();
     }

@@ -57,12 +57,13 @@ public class PlayerController : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
-                if (hit.transform.tag.Equals("Zombie"))
+                if (hit.transform.tag.Equals("Zombie") || hit.transform.tag.Equals("Boss"))
                 {
                     SetFireAnim(true);
                     //InsSmoke();
                     hit.transform.gameObject.GetComponent<ZombieController>().GetHit(damge);
                 }
+   
                 else if (hit.transform.tag.Equals("Wall") || hit.transform.tag.Equals("Ground"))
                 {
                     //InsSmoke();

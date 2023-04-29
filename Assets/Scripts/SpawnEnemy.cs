@@ -6,10 +6,11 @@ public class SpawnEnemy : MonoBehaviour
 {
     public GameObject[] spawnPoint;
     public GameObject zombie;
-    private float minSpawnTime = 5f;
-    private float maxSpawnTime = 10f;
+    public float minSpawnTime = 5f;
+    public float maxSpawnTime = 10f;
     private float lastSpawnTime = 0f;
     private float spawnTime = 0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +28,7 @@ public class SpawnEnemy : MonoBehaviour
     void Spawn()
     {
         //Spawn in Auto Random Point
-        int point = Random.Range(0, spawnPoint.Length - 1);
+        int point = Random.Range(0, spawnPoint.Length);
         //Quaternion.identity is no rotation
         Instantiate(zombie, spawnPoint[point].transform.position, Quaternion.identity);
         UpdateSpawnTime();
