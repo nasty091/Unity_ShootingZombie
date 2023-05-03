@@ -6,32 +6,33 @@ public class SpawnBoss : MonoBehaviour
 {
     public GameObject Boss;
     private GameObject bossSpawnPoint;
-    private bool roundTwo;
+    private float startSpawnBossTime;
+
+    [SerializeField]
+    private float spawnBossTime = 43.0f;
 
     private void Start()
     {
-        bossSpawnPoint = GameObject.FindGameObjectWithTag("RespawnBoss");
-       
+        UpdateStartSpawnBossTime();
     }
 
     private void Update()
     {
-        for (int i = 0; i < 1; i++)
-        {
-            UpdateSpawn();
-        }
-    }
-
-    private void UpdateSpawn()
-    {
-        if (roundTwo)
+        if(Time.time >= startSpawnBossTime + spawnBossTime)
         {
             Spawn();
+            spawnBossTime = 20.0f;
         }
     }
 
-    private void Spawn()
+    public void UpdateStartSpawnBossTime()
+    {
+        startSpawnBossTime = Time.time;
+    }
+
+    public void Spawn()
     {
         Instantiate(Boss, gameObject.transform.position, Quaternion.identity);
+        UpdateStartSpawnBossTime();
     }
 }

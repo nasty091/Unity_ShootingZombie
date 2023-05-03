@@ -10,8 +10,8 @@ public class ZombieController : MonoBehaviour
     public float shootTime = 0.5f;
 
     public bool isAttack = false;
-    public float attackTime = 3f;
-    public float lastAttackTime = 0f;
+    private float attackTime = 3.5f;
+    public float lastAttackTime = 0.0f;
 
     private AudioSource audioSource;
     public AudioClip zombieDeathSound;
@@ -81,20 +81,23 @@ public class ZombieController : MonoBehaviour
         audioSource.Play();
 
         anim.SetBool("isDead", true);
-        Destroy(gameObject, 1.5f);
+        Destroy(gameObject, 1.0f);
 
         gameController.GetComponent<GameController>().GetPoint(1);
     }
 
+    public float delayTime = 5.0f;
     void Attack()
     {
         if(Time.time >= lastAttackTime + attackTime)
         {
             StartCoroutine(DelayPlayerGetHit());
+            //player.GetComponent<PlayerController>().GetHit(zombieDamge);
 
             //player.GetComponent<PlayerController>().GetHit(zombieDamge);
             AttackAnim(true);
             UpdateAttackTime();
+            delayTime = 0.0f;
         }
         else
         {
@@ -104,7 +107,7 @@ public class ZombieController : MonoBehaviour
 
     IEnumerator DelayPlayerGetHit()
     {
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(delayTime);
         player.GetComponent<PlayerController>().GetHit(zombieDamge);
         StopAllCoroutines();
     }

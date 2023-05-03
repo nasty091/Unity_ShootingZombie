@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,10 +14,13 @@ public class GameController : MonoBehaviour
     internal int currentPoint = 0;
 
     public Text txtRound;
-    private int roundNumber = 2;
 
-    private float roundStartTime;
-    private float roundTime = 2.0f;
+    private float startRound2Time;
+
+    [SerializeField]
+    private float roundTime = 40.0f;
+
+    private AudioSource roundSound;
 
     // Start is called before the first frame update
     void Start()
@@ -24,24 +28,21 @@ public class GameController : MonoBehaviour
         Time.timeScale= 1;
         menu.SetActive(false);
         txtRound.enabled = false;
+        startRound2Time = Time.time;
+        roundSound = gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(currentPoint == 2)
+        if(Time.time >= startRound2Time + roundTime)
         {
-            txtRound.text = "ROUND " + roundNumber;
-            roundNumber++;
             txtRound.enabled = true;
-            roundStartTime = Time.time;
-        }
-
-        if(Time.time > roundStartTime + roundTime) 
-        {
-            txtRound.enabled = false;
+            Destroy(txtRound, 2.0f);   
+            roundSound.Play();
         }
     }
+
 
     public void GetPoint(int point)
     {
@@ -56,7 +57,7 @@ public class GameController : MonoBehaviour
 
     IEnumerator DieDelay()
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.5f);
         Time.timeScale = 0;
         menu.SetActive(true);
     }

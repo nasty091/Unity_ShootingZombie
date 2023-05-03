@@ -10,6 +10,7 @@ TagManager:
   - Wall
   - Boss
   - RespawnBoss
+  - Round
   layers:
   - Default
   - TransparentFX

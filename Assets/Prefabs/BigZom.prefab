@@ -1572,12 +1572,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 963b9f0f6e051f74b912bdd09cb7d6c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zombieHealth: 20
+  zombieHealth: 9
   shootTime: 0.5
   isAttack: 0
-  attackTime: 3
   lastAttackTime: 0
   zombieDeathSound: {fileID: 8300000, guid: 2f6d39258fc4e3046902f52c71ad3c81, type: 3}
+  delayTime: 5
 --- !u!1 &7045455700117970507
 GameObject:
   m_ObjectHideFlags: 0
