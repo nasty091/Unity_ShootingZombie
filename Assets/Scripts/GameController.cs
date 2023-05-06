@@ -17,31 +17,28 @@ public class GameController : MonoBehaviour
 
     private float startRound2Time;
 
-    [SerializeField]
-    private float roundTime = 40.0f;
+    //[SerializeField]
+    //private float roundTime = 40.0f;
 
-    private AudioSource roundSound;
 
     // Start is called before the first frame update
     void Start()
     {
         Time.timeScale= 1;
         menu.SetActive(false);
-        txtRound.enabled = false;
-        startRound2Time = Time.time;
-        roundSound = gameObject.GetComponent<AudioSource>();
+        //txtRound.enabled = false;
+        //startRound2Time = Time.time;
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if(Time.time >= startRound2Time + roundTime)
-        {
-            txtRound.enabled = true;
-            Destroy(txtRound, 2.0f);   
-            roundSound.Play();
-        }
-    }
+    //void Update()
+    //{
+    //    if(Time.time >= startRound2Time + roundTime)
+    //    {
+    //        txtRound.enabled = true;
+    //        Destroy(txtRound, 2.0f);   
+    //    }
+    //}
 
 
     public void GetPoint(int point)

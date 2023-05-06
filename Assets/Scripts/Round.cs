@@ -5,58 +5,34 @@ using UnityEngine.UI;
 
 public class Round : MonoBehaviour
 {
-    private Animator roundAnim;
-    private GameObject gameController;
+    private Animator anim;
+    private float startGameTime;
+    [SerializeField]
+    private float startRoundTime = 40.0f;
+    [SerializeField]
+    private float stopRoundTime = 42.0f;
 
-    private float roundStartTime;
-    private float timeForOneRound = 10.0f;
-
-    private float roundStartAnimTime;
-    private float timeForTxtRound = 1.0f;
-
-    private int roundNumber = 2;
-    public void Start()
+    private void Start()
     {
-        roundAnim = gameObject.GetComponent<Animator>();
-        roundStartTime = Time.time;
-        IsStart(false);
-        gameController = GameObject.FindGameObjectWithTag("GameController");
+        anim = gameObject.GetComponent<Animator>();
+        startGameTime = Time.time;
+        ShowRound(false);
     }
 
     private void Update()
     {
-        ShowRoundAnim();
-        TurnOffRoundAnim();
-    }
-
-    public void IsStart(bool isStart)
-    {
-        roundAnim.SetBool("isStart", isStart);
-    }
-
-    public void UpdateRoundStartTime()
-    {
-        roundStartTime = Time.time;
-    }
-
-    public void ShowRoundAnim()
-    {
-        if(Time.time >= roundStartTime + timeForOneRound)
+        if(Time.time >= startGameTime + startRoundTime && Time.time <= startGameTime + stopRoundTime)
         {
-            IsStart(true);
-            UpdateRoundStartTime();
-            roundStartAnimTime = Time.time;
+            ShowRound(true);
+        }
+        else
+        {
+            ShowRound(false);
         }
     }
 
-    public void TurnOffRoundAnim()
+    private void ShowRound(bool isStart)
     {
-        if(Time.time >= roundStartAnimTime + timeForTxtRound)
-        {
-            IsStart(false);
-        }
-        gameController.GetComponent<GameController>().txtRound.text = "Round " + roundNumber;
-        roundNumber++;
+        anim.SetBool("isStart", isStart);
     }
-
 }

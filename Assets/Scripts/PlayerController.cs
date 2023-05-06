@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     public int damge = 1;
-    public float fireTime = 0.3f;
+    public float fireTime = 0.2f;
     private float lastFireTime;
     public Animator anim;
 
@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
 
     public Slider healthBar;
 
+    public GameObject gunSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,7 +36,11 @@ public class PlayerController : MonoBehaviour
         healthBar.maxValue= playerHealth;
         healthBar.value = playerCurrentHealth;
         healthBar.minValue = 0;
+
+        //Gun Sound Effect
+        gunSound = GameObject.FindGameObjectWithTag("Pistol");
     }
+
 
     void UpdateFireTime()
     {
