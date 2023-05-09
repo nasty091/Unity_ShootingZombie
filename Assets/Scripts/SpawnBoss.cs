@@ -21,7 +21,7 @@ public class SpawnBoss : MonoBehaviour
         if(Time.time >= startSpawnBossTime + spawnBossTime)
         {
             Spawn();
-            spawnBossTime = 20.0f;
+            spawnBossTime = 10.0f;
         }
     }
 

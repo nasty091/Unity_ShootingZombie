@@ -12,6 +12,8 @@ TagManager:
   - RespawnBoss
   - Round
   - Pistol
+  - BlackPistol
+  - UnlockGun
   layers:
   - Default
   - TransparentFX

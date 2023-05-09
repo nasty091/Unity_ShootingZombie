@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    public int damge = 1;
+    internal int damge = 1;
     public float fireTime = 0.2f;
     private float lastFireTime;
     public Animator anim;
@@ -23,7 +23,8 @@ public class PlayerController : MonoBehaviour
 
     public GameObject gunSound;
 
-    // Start is called before the first frame update
+    private GameObject blackPistol;
+
     void Start()
     {
         UpdateFireTime();
@@ -37,8 +38,9 @@ public class PlayerController : MonoBehaviour
         healthBar.value = playerCurrentHealth;
         healthBar.minValue = 0;
 
-        //Gun Sound Effect
+        //Gun Sound Effects
         gunSound = GameObject.FindGameObjectWithTag("Pistol");
+
     }
 
 
@@ -66,14 +68,14 @@ public class PlayerController : MonoBehaviour
                 if (hit.transform.tag.Equals("Zombie") || hit.transform.tag.Equals("Boss"))
                 {
                     SetFireAnim(true);
-                    //InsSmoke();
+                    gunSound.gameObject.GetComponent<AudioSource>().Play();
                     hit.transform.gameObject.GetComponent<ZombieController>().GetHit(damge);
                 }
    
                 else if (hit.transform.tag.Equals("Wall") || hit.transform.tag.Equals("Ground"))
                 {
-                    //InsSmoke();
                     SetFireAnim(true);
+                    gunSound.gameObject.GetComponent<AudioSource>().Play();
                 }
             }
             UpdateFireTime();
@@ -128,7 +130,6 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButton(0))
@@ -136,5 +137,6 @@ public class PlayerController : MonoBehaviour
             Fire();
         }
         //playerHealth = playerCurrentHealth;
+
     }
 }
